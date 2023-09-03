@@ -232,9 +232,9 @@ Here:
 
 With the `--showlog` flag in the `tkn pipeline start` command, you'll be able to see the logs directly as the pipeline runs.
 
-### 6. View the logs of a `PipelineRun`
+### 6. View the logs of a `Pipeline` created via `kubectl create`
 
-If you need to check the logs of a `PipelineRun` (instead of the logs of a `Pipeline`), use:
+If you need to check the logs of a `Pipeline` that was created via `kubectl create`, use:
 
 ```shell
 # List the pipeline runs
