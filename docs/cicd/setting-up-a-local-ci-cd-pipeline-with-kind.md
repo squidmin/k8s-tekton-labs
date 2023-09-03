@@ -172,7 +172,7 @@ Firstly, make sure your `kubectl` context is pointing to your `kind` cluster nam
 kubectl cluster-info --context kind-tekton-cluster
 ```
 
-And create the Kubernetes secret(s) in the `tekton-pipeline` cluster:
+And create the Kubernetes secret(s) in `tekton-cluster`:
 
 ```shell
 kubectl create secret generic docker-config --from-file=config.json=./crds/Secrets/config.json
