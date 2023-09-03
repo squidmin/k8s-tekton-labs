@@ -232,7 +232,7 @@ Here:
 
 ### 6. View the logs
 
-With the `--showlog` flag in the `tkn pipeline start` command, you'll be able to see the logs directly as the pipeline runs.
+With the `--showlog` flag in the `tkn pipeline start` command (see step **5. Start the Tekton Pipeline**), you'll be able to see the logs directly as the pipeline runs.
 
 However, if you need to check the logs of a specific task run or after the pipeline has completed, use:
 
