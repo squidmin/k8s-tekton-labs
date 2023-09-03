@@ -4,15 +4,15 @@ metadata:
   generateName: spring-boot-cicd-pipeline-run-
 spec:
   pipelineRef:
-    name: spring-boot-cicd-pipeline
-  params:
-    - name: git-repo-url
-      value: "https://github.com/squidmin/java17-spring-gradle-bigquery-reference.git"
-    - name: git-repo-revision
-      value: "gcs-url-csv-upload"
-    - name: image-name
-      value: "us-central1-docker.pkg.dev/lofty-root-378503/lofty-root-docker-test/java17-spring-gradle-bigquery-reference:latest"
+    name: spring-boot-cicd
   workspaces:
     - name: shared-workspace
       persistentVolumeClaim:
         claimName: source-pvc
+  params:
+    - name: git-url
+      value: "https://github.com/squidmin/java17-spring-gradle-bigquery-reference.git"
+    - name: git-revision
+      value: "gcs-url-csv-upload"
+    - name: image-url
+      value: "us-central1-docker.pkg.dev/lofty-root-378503/lofty-root-docker-test/java17-spring-gradle-bigquery-reference:latest"

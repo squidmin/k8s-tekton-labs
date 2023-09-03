@@ -1,28 +1,36 @@
 apiVersion: tekton.dev/v1beta1
 kind: Pipeline
 metadata:
-  name: build-and-deploy-pipeline
+  name: spring-boot-cicd
 spec:
-  params:
-  - name: git-url
-    type: string
-  - name: git-revision
-    type: string
-  - name: image-name
-    type: string
   workspaces:
-  - name: source
-  tasks:
-  - name: git-clone-build-push
-    taskRef:
-      name: git-clone-build-push-task
-    workspaces:
-    - name: source
-      workspace: source
-    params:
+    - name: shared-workspace
+  params:
     - name: git-url
-      value: $(params.git-url)
+      type: string
     - name: git-revision
-      value: $(params.git-revision)
-    - name: image-name
-      value: $(params.image-name)
+      type: string
+      default: "master"
+    - name: image-url
+      type: string
+  tasks:
+    - name: fetch-repository
+      taskRef:
+        name: fetch-repository
+      params:
+        - name: url
+          value: $(params.git-url)
+        - name: revision
+          value: $(params.git-revision)
+      workspaces:
+        - name: output
+          workspace: shared-workspace
+    - name: build-push-image
+      taskRef:
+        name: build-push-image
+      params:
+        - name: image-url
+          value: $(params.image-url)
+      workspaces:
+        - name: source
+          workspace: shared-workspace

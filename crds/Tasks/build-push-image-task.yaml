@@ -1,0 +1,24 @@
+apiVersion: tekton.dev/v1beta1
+kind: Task
+metadata:
+  name: build-push-image
+spec:
+  workspaces:
+    - name: source
+  params:
+    - name: image-url
+      type: string
+  steps:
+    - name: build-and-push
+      image: gcr.io/kaniko-project/executor:latest
+      args:
+        - --context=/workspace/source
+        - --dockerfile=/workspace/source/Dockerfile
+        - --destination=$(params.image-url)
+      volumeMounts:
+        - name: docker-config
+          mountPath: /kaniko/.docker/
+  volumes:
+    - name: docker-config
+      configMap:
+        name: docker-config

@@ -180,7 +180,9 @@ kubectl create secret generic docker-config --from-file=config.json=./crds/Secre
 
 ```shell
 # Bind the Service Account to Required Roles
-kubectl create clusterrolebinding tekton-pipeline-admin --clusterrole=cluster-admin --serviceaccount=default:tekton-pipeline
+kubectl create clusterrolebinding tekton-pipeline-admin \
+  --clusterrole=cluster-admin \
+  --serviceaccount=default:tekton-pipeline
 ```
 
 Now, apply the Tekton tasks, pipelines, and other configurations:
@@ -195,8 +197,11 @@ kubectl apply -f crds/ServiceAccounts/
 # Apply the GCP service account secret
 kubectl apply -f crds/Secrets/gcp-service-account-secret.yaml
 
-# Apply the Tekton Task
-kubectl apply -f crds/Tasks/git-clone-build-push-task.yaml
+# Apply the build-push task
+kubectl apply -f crds/Tasks/build-push-image-task.yaml
+
+# Apply the git-clone task
+kubectl apply -f crds/Tasks/git-clone-task.yaml
 
 # Apply the Tekton Pipeline
 kubectl apply -f crds/Pipelines/spring-boot-cicd-pipeline.yaml
@@ -236,7 +241,7 @@ However, if you need to check the logs of a specific task run or after the pipel
 tkn pipelinerun list
 
 # Get the logs of a specific pipeline run
-tkn pipelinerun logs build-and-deploy-pipeline-run-645hl -f
+tkn pipelinerun logs spring-boot-cicd-pipeline-run-h6vx5 -f
 ```
 
 Replace `pipeline-run` with the name of the pipeline run you want to view the logs for, e.g.:
@@ -245,4 +250,8 @@ Replace `pipeline-run` with the name of the pipeline run you want to view the lo
 tkn pipelinerun logs build-and-push-pipelinerun-pjd48 -f
 ```
 
-
+>Note: To delete an existing `PipelineRun`, use the command:
+> 
+>```shell
+>kubectl delete pipelinerun spring-boot-cicd-pipeline-run-bvhll
+>```

@@ -67,7 +67,13 @@ tkn pipelinerun logs build-and-push-pipelinerun-pjd48 -f
 <summary>Expand</summary>
 
 ```shell
+kubectl delete pipeline [PIPELINE_NAME] -n [NAMESPACE]
+```
 
+e.g.,
+
+```shell
+kubectl delete pipeline spring-boot-cicd
 ```
 
 </details>
@@ -79,7 +85,7 @@ tkn pipelinerun logs build-and-push-pipelinerun-pjd48 -f
 <summary>Expand</summary>
 
 ```shell
-
+kubectl delete pipelinerun [PIPELINERUN_NAME] -n [NAMESPACE]
 ```
 
 </details>
