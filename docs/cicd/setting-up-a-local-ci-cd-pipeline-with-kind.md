@@ -241,13 +241,13 @@ However, if you need to check the logs of a specific task run or after the pipel
 tkn pipelinerun list
 
 # Get the logs of a specific pipeline run
-tkn pipelinerun logs spring-boot-cicd-pipeline-run-h6vx5 -f
+tkn pipelinerun logs example-pipeline-run-abcde -f
 ```
 
-Replace `pipeline-run` with the name of the pipeline run you want to view the logs for, e.g.:
+Replace `example-pipeline-run-abcde` with the name of the pipeline run you want to view the logs for, e.g.:
 
 ```shell
-tkn pipelinerun logs build-and-push-pipelinerun-pjd48 -f
+tkn pipelinerun logs spring-boot-cicd-pipeline-run-bvhll -f
 ```
 
 >Note: To delete an existing `PipelineRun`, use the command:
