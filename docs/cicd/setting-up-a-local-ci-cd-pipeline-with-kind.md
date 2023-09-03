@@ -251,6 +251,12 @@ tkn pipelinerun logs build-and-push-pipelinerun-pjd48 -f
 ```
 
 >Note: To delete an existing `PipelineRun`, use the command:
+>
+>```shell
+>kubectl delete pipelinerun example-pipeline-run-abcde
+>```
+>
+>e.g.,
 > 
 >```shell
 >kubectl delete pipelinerun spring-boot-cicd-pipeline-run-bvhll
