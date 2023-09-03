@@ -230,11 +230,11 @@ Here:
 - The parameters `pathToDockerFile`, `pathToContext`, `imageUrl`, and `imageTag` are passed to the pipeline.
   Make sure to adjust the placeholders as per your configuration.
 
-### 6. View the logs
+With the `--showlog` flag in the `tkn pipeline start` command, you'll be able to see the logs directly as the pipeline runs.
 
-With the `--showlog` flag in the `tkn pipeline start` command (see step **5. Start the Tekton Pipeline**), you'll be able to see the logs directly as the pipeline runs.
+### 6. View the logs of a `PipelineRun`
 
-However, if you need to check the logs of a specific task run or after the pipeline has completed, use:
+If you need to check the logs of a `PipelineRun` (instead of the logs of a `Pipeline`), use:
 
 ```shell
 # List the pipeline runs
@@ -250,7 +250,7 @@ Replace `example-pipeline-run-abcde` with the name of the pipeline run you want 
 tkn pipelinerun logs spring-boot-cicd-pipeline-run-bvhll -f
 ```
 
->Note: To delete an existing `PipelineRun`, use the command:
+>**Note**: To delete an existing `PipelineRun`, use the command:
 >
 >```shell
 >kubectl delete pipelinerun example-pipeline-run-abcde
