@@ -1,0 +1,28 @@
+apiVersion: tekton.dev/v1beta1
+kind: Pipeline
+metadata:
+  name: build-and-deploy-pipeline
+spec:
+  params:
+  - name: git-url
+    type: string
+  - name: git-revision
+    type: string
+  - name: image-name
+    type: string
+  workspaces:
+  - name: source
+  tasks:
+  - name: git-clone-build-push
+    taskRef:
+      name: git-clone-build-push-task
+    workspaces:
+    - name: source
+      workspace: source
+    params:
+    - name: git-url
+      value: $(params.git-url)
+    - name: git-revision
+      value: $(params.git-revision)
+    - name: image-name
+      value: $(params.image-name)
