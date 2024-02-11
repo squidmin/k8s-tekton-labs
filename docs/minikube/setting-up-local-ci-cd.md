@@ -183,7 +183,7 @@ After running the `eval` command, you can check if it's working as expected by l
 docker images
 ```
 
-<img src="../cicd/img/docker-images-1.png" alt="Output of 'docker images' command." width="600px">
+<img src="../kind/img/docker-images-1.png" alt="Output of 'docker images' command." width="600px">
 
 You should see a list of images used by Minikube and any other images you've built within that environment.
 

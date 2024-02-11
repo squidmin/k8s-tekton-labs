@@ -4,11 +4,11 @@ How to set up a local Tekton CI/CD pipeline for an application with the followin
 
 - _**Language**_: Java v17
 - _**Framework**_: Spring Boot v3
-- _**Build system**_: Gradle
+- _**Build system**_: Gradle v8.3
 
 Covers building, tagging, and pushing the container image to GCP Artifact Registry and then deploying it to Cloud Run.
 
-### 1. Dockerize the Spring Boot application
+### 1. Containerize the Spring Boot application
 
 Below is an example `Dockerfile` to get started:
 
@@ -16,7 +16,7 @@ Below is an example `Dockerfile` to get started:
 FROM openjdk:17-jdk-slim
 
 WORKDIR /app
-
+ 
 COPY ./build/libs/*.jar app.jar
 
 ENTRYPOINT ["java","-jar","/app.jar"]
@@ -41,10 +41,10 @@ ARG JAR_FILE=build/libs/*.jar
 ARG APP_DIR=/usr/local/app
 ARG APP_PROFILE
 ARG GCP_SA_KEY_PATH
-ARG GCP_ADC_ACCESS_TOKEN
-ARG GCP_DEFAULT_USER_PROJECT_ID
-ARG GCP_DEFAULT_USER_DATASET
-ARG GCP_DEFAULT_USER_TABLE
+ARG GCP_ACCESS_TOKEN
+ARG GCP_PROJECT_ID
+ARG BQ_DATASET
+ARG BQ_TABLE
 ###
 
 ### Environment variables ###
@@ -53,17 +53,17 @@ ENV APP_DIR=${APP_DIR}
 # JVM arguments.
 ENV APP_PROFILE=${APP_PROFILE}
 ENV GCP_SA_KEY_PATH=${GCP_SA_KEY_PATH}
-ENV GCP_ADC_ACCESS_TOKEN=${GCP_ADC_ACCESS_TOKEN}
-ENV GCP_DEFAULT_USER_PROJECT_ID=${GCP_DEFAULT_USER_PROJECT_ID}
-ENV GCP_DEFAULT_USER_DATASET=${GCP_DEFAULT_USER_DATASET}
-ENV GCP_DEFAULT_USER_TABLE=${GCP_DEFAULT_USER_TABLE}
+ENV GCP_ACCESS_TOKEN=${GCP_ACCESS_TOKEN}
+ENV GCP_PROJECT_ID=${GCP_PROJECT_ID}
+ENV BQ_DATASET=${BQ_DATASET}
+ENV BQ_TABLE=${BQ_TABLE}
 ###
 
 # Set working directory
 WORKDIR /app
 
 # Copy the source code
-COPY . .
+COPY ../cicd .
 
 # Build the application
 RUN gradle clean bootJar
@@ -142,7 +142,7 @@ kubectl apply -f https://api.hub.tekton.dev/v1/resource/tekton/task/kaniko/0.6/r
    
    First, set up a _Kubernetes secret_ with your GCP service account credentials.
 
-   The GCP service account credentials are required in order to authenticate with _GCP Artifact Registry_.
+   The GCP service account credentials are required to authenticate with _GCP Artifact Registry_.
 
    For the creation of a _Kubernetes secret_, the data has to be base64 encoded.
    This repo includes a utility script to automate that:
@@ -162,11 +162,12 @@ kubectl apply -f https://api.hub.tekton.dev/v1/resource/tekton/task/kaniko/0.6/r
    ```
    
    A file called `gcp-service-account-secret.yaml` will be generated and placed in the `crds/Secrets` directory.
-   This is the _Kubernetes secret_. In the next step, it will be added to the `tekton-cluster` (created in **2. Set up Tekton on `kind`**) via the `kubectl` CLI.
+   This is the _Kubernetes secret_.
+   In the next step, it will be added to the `tekton-cluster` (created in **2. Set up Tekton on `kind`**) via the `kubectl` CLI.
    
 ### 4. Apply configurations to `tekton-cluster`
 
-Firstly, make sure your `kubectl` context is pointing to your `kind` cluster named `tekton-cluster`:
+Point your `kubectl` context to your `kind` cluster named `tekton-cluster`:
 
 ```shell
 kubectl cluster-info --context kind-tekton-cluster

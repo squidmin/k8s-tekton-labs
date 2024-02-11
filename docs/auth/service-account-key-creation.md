@@ -37,3 +37,15 @@ e.g.,
 ```shell
 python3 ./scripts/generate_gcp_service_account_secret.py ~/.config/gcloud/tekton-pipeline-key.json
 ```
+
+### 3. Echo the key string
+
+```shell
+echo -n "_json_key:$(cat /path/to/your-service-account-key.json)" | base64
+```
+
+e.g.,
+
+```shell
+echo -n "_json_key:$(cat ~/.config/gcloud/tekton-pipeline-key.json)" | base64
+```
